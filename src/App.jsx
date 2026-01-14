@@ -62,9 +62,22 @@ const App = () => {
 
     // Get unique airlines from the flights data for filtering
     const availableAirlines = useMemo(() => {
-        const airlines = flights.map((f) => f.airline);
-        return [...new Set(airlines)].sort();
+        const seen = new Set();
+        return flights
+            .map((f) => ({
+                airline: f.airline,
+                code: f.airlineCode,
+            }))
+            .filter((item) => {
+                const key = item.code;
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            })
+            .sort((a, b) => a.airline.localeCompare(b.airline));
     }, [flights]);
+
+    console.log("Available airlines for filtering:", flights);
 
     // Pagination logic
     const ITEMS_PER_PAGE = 10;

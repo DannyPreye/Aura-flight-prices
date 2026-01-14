@@ -24,6 +24,7 @@ const Filters = ({ filters, onFilterChange, availableAirlines = [] }) => {
         onFilterChange({ ...filters, maxPrice: newValue });
     };
 
+    console.log("Filters component rendered with filters:", availableAirlines);
     const handleStopsChange = (stop) => {
         onFilterChange({ ...filters, stops: stop });
     };
@@ -397,21 +398,21 @@ const Filters = ({ filters, onFilterChange, availableAirlines = [] }) => {
                 </Typography>
                 <FormGroup>
                     {availableAirlines.length > 0 ? (
-                        availableAirlines.map((airline) => (
+                        availableAirlines.map((data) => (
                             <FormControlLabel
-                                key={airline}
+                                key={data.code}
                                 control={
                                     <Checkbox
                                         size='small'
                                         checked={
                                             (filters.airlines || []).includes(
-                                                airline
+                                                data.code
                                             ) ||
                                             (filters.airlines || []).length ===
                                                 0
                                         }
                                         onChange={() =>
-                                            handleAirlineToggle(airline)
+                                            handleAirlineToggle(data.code)
                                         }
                                         sx={{
                                             color: alpha("#64748b", 0.3),
@@ -429,7 +430,7 @@ const Filters = ({ filters, onFilterChange, availableAirlines = [] }) => {
                                             color: "text.primary",
                                         }}
                                     >
-                                        {airline}
+                                        {data.airline}
                                     </Typography>
                                 }
                                 sx={{ mb: 0.5 }}
